@@ -1,0 +1,172 @@
+# Computer-Vision
+All the computer vision will be uplaod here.
+# Step 1: Upload your image
+from google.colab import files
+uploaded = files.upload()   # Select pexels-nanamusic-31566538.jpg
+
+# Step 2: Install dependencies (if not already installed)
+!pip install opencv-python scikit-image matplotlib
+
+# Step 3: Import libraries
+import cv2
+import matplotlib.pyplot as plt
+from skimage.feature import hog
+from skimage import exposure
+
+%matplotlib inline
+
+# Step 4: Read the uploaded image
+image_path = "pexels-nanamusic-31566538.jpg"   # must match uploaded filename
+image = cv2.imread(image_path)
+if image is None:
+    raise ValueError(f"Image not found at: {image_path}. Check the uploaded file name.")
+
+# Convert BGR to RGB (for display)
+image_rgb = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
+
+# Convert to grayscale and resize to avoid long computation
+gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
+gray = cv2.resize(gray, (256, 256))   # resize for faster HOG
+
+# Step 5: Apply HOG Feature Extraction
+features, hog_image = hog(
+    gray,
+    orientations=6,              # fewer bins for speed
+    pixels_per_cell=(16, 16),    # larger cells for speed
+    cells_per_block=(2, 2),
+    block_norm='L2-Hys',
+    visualize=True
+)
+
+# Rescale HOG image for better visualization
+hog_image_rescaled = exposure.rescale_intensity(hog_image, in_range=(0, 10))
+
+# Step 6: Display Results
+plt.figure(figsize=(10, 5))
+plt.subplot(1, 2, 1)
+plt.title("Original Image")
+plt.imshow(image_rgb)
+plt.axis("off")
+
+plt.subplot(1, 2, 2)
+plt.title("HOG Feature Visualization")
+plt.imshow(hog_image_rescaled, cmap='gray')
+plt.axis("off")
+
+plt.tight_layout()
+plt.show()
+
+# Step 7: Print Feature Vector Size
+print("HOG feature vector length:", len(features))
+
+
+
+{'Pec.jpg': 'Pec.jpg'}
+image_path = "Pec.jpg"   # must match the uploaded file name
+image = cv2.imread(image_path)
+if image is None:
+    raise ValueError("Image not found. Check the uploaded filename.")
+    # Step 1: Upload your image into Colab
+from google.colab import files
+uploaded = files.upload()   # Select Pec.jpg from your computer
+
+# Step 2: Install dependencies (only needed once in Colab)
+!pip install opencv-python scikit-image matplotlib
+
+# Step 3: Import libraries
+import cv2
+import matplotlib.pyplot as plt
+from skimage.feature import hog
+from skimage import exposure
+
+%matplotlib inline
+
+# Step 4: Read the uploaded image
+image_path = "Pec.jpg"   # must match the uploaded filename
+image = cv2.imread(image_path)
+if image is None:
+    raise ValueError(f"Image not found at: {image_path}. Check the uploaded file name.")
+
+# Convert BGR to RGB (for display)
+image_rgb = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
+
+# Convert to grayscale and resize to avoid long computation
+gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
+gray = cv2.resize(gray, (256, 256))   # resize for faster HOG
+
+# Step 5: Apply HOG Feature Extraction
+features, hog_image = hog(
+    gray,
+    orientations=6,              # fewer bins for speed
+    pixels_per_cell=(16, 16),    # larger cells for speed
+    cells_per_block=(2, 2),
+    block_norm='L2-Hys',
+    visualize=True
+)
+
+# Rescale HOG image for better visualization
+hog_image_rescaled = exposure.rescale_intensity(hog_image, in_range=(0, 10))
+
+# Step 6: Display Results
+plt.figure(figsize=(10, 5))
+plt.subplot(1, 2, 1)
+plt.title("Original Image")
+plt.imshow(image_rgb)
+plt.axis("off")
+
+plt.subplot(1, 2, 2)
+plt.title("HOG Feature Visualization")
+plt.imshow(hog_image_rescaled, cmap='gray')
+plt.axis("off")
+
+plt.tight_layout()
+plt.show()
+
+# Step 7: Print Feature Vector Size
+print("HOG feature vector length:", len(features))
+import cv2
+import matplotlib.pyplot as plt
+from skimage.feature import hog
+from skimage import exposure
+
+# Read image
+image = cv2.imread("Pec.jpg")   # uploaded file
+if image is None:
+    raise ValueError("Image not found. Check the uploaded filename.")
+
+# Convert to RGB for display
+image_rgb = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
+
+# Convert to grayscale and resize
+gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
+gray = cv2.resize(gray, (256, 256))   # resize for faster HOG
+
+# Apply HOG
+features, hog_image = hog(
+    gray,
+    orientations=9,
+    pixels_per_cell=(8, 8),
+    cells_per_block=(2, 2),
+    block_norm='L2-Hys',
+    visualize=True
+)
+
+# ✅ Rescale for better visualization
+hog_image_rescaled = exposure.rescale_intensity(hog_image, in_range=(0, hog_image.max()))
+
+# Show results
+plt.figure(figsize=(10, 5))
+plt.subplot(1, 2, 1)
+plt.title("Original Image")
+plt.imshow(image_rgb)
+plt.axis("off")
+
+plt.subplot(1, 2, 2)
+plt.title("HOG Feature Visualization")
+plt.imshow(hog_image_rescaled, cmap='gray')
+plt.axis("off")
+
+plt.tight_layout()
+plt.show()
+
+print("HOG feature vector length:", len(features))
