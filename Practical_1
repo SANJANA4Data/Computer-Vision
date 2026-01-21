@@ -1,0 +1,36 @@
+	
+% Load built-in image
+I = imread('peppers.png');   % loads the peppers image
+imshow(I);
+title('Original Peppers Image');
+% Convert to grayscale
+I_gray = rgb2gray(I);
+imshow(I_gray);
+title('Grayscale Peppers Image');
+% Convert to double precision
+I_double = im2double(I_gray);
+% Negative Transformation
+I_neg = 1 - I_double;
+
+figure; imshow(I_neg);
+title('Negative Transformation');
+% Logarithmic Transformation
+c = 1 / log(1 + max(I_double(:)));   % scaling constant
+I_log = c * log(1 + I_double);
+
+figure; imshow(I_log);
+title('Logarithmic Transformation');
+% Gamma Transformation
+gamma = 0.5;   % try values <1 (brighten), >1 (darken)
+I_gamma = I_double .^ gamma;
+
+figure; imshow(I_gamma);
+title(['Gamma Transformation, \gamma = ', num2str(gamma)]);
+montage({I_gray, I_neg, I_log, I_gamma}, 'Size', [1 4]);
+title('Original | Negative | Logarithmic | Gamma');
+imwrite(I_neg, 'negative.png');
+imwrite(I_log, 'logarithmic.png');
+imwrite(I_gamma, 'gamma.png');
+
+
+
