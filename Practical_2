@@ -1,0 +1,22 @@
+% Read the built-in coin image
+I = imread('coins.png'); 
+I_gray = I; % coins.png is already grayscale
+
+% Define kernels
+avg_kernel = ones(3,3) / 9;                     % 3x3 averaging filter
+gauss_kernel = fspecial('gaussian', [5 5], 1);  % 5x5 Gaussian filter
+
+% Apply convolution for smoothing
+I_avg = conv2(double(I_gray), avg_kernel, 'same');
+I_gauss = conv2(double(I_gray), gauss_kernel, 'same');
+
+% Convert results back to uint8 for display
+I_avg = uint8(I_avg);
+I_gauss = uint8(I_gauss);
+
+% Display results side by side
+figure;
+subplot(1,3,1), imshow(I_gray), title('Original Coins Image');
+subplot(1,3,2), imshow(I_avg), title('Averaging Filter Smoothing');
+subplot(1,3,3), imshow(I_gauss), title('Gaussian Filter Smoothing');
+
