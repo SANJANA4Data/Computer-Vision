@@ -1,0 +1,31 @@
+# Install OpenCV contrib (for SIFT)
+!pip install opencv-contrib-python
+
+# Upload your file
+from google.colab import files
+uploaded = files.upload()   # Select "S cat.png" from your computer
+
+import cv2
+import matplotlib.pyplot as plt
+
+# Load the uploaded file (make sure the name matches exactly)
+image = cv2.imread("S cat.png")
+if image is None:
+    print("Error: Image not loaded. Check filename spelling.")
+else:
+    gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
+
+    sift = cv2.SIFT_create()
+    keypoints, descriptors = sift.detectAndCompute(gray, None)
+
+    sift_image = cv2.drawKeypoints(
+        image, keypoints, None,
+        flags=cv2.DRAW_MATCHES_FLAGS_DRAW_RICH_KEYPOINTS,
+        color=(0, 255, 0)
+    )
+
+    plt.figure(figsize=(10,6))
+    plt.imshow(cv2.cvtColor(sift_image, cv2.COLOR_BGR2RGB))
+    plt.axis("off")
+    plt.title(f"SIFT Features ({len(keypoints)} keypoints detected)")
+    plt.show()
